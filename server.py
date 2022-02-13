@@ -22,6 +22,7 @@ class Shared:
     def clean(self):
         if self._powerpoint_application is not None:
             self._powerpoint_application.quit()
+            self._powerpoint_application = None
 
 
 def TemporaryDirectory():
@@ -56,12 +57,14 @@ async def export_as_fixed_format2(
         read_only=office.MsoTriState.msoTrue,
         with_window=office.MsoTriState.msoFalse
     )
-    presentation.export_as_fixed_format2(
-        path,
-        powerpoint.PpFixedFormatType.ppFixedFormatTypePDF,
-        keep_irm_settings=False,
-        doc_structure_tags=False,
-        bitmap_missing_fonts=False
-    )
-    presentation.close()
-    return fastapi.responses.FileResponse(path, filename=file_name)
+    try:
+        presentation.export_as_fixed_format2(
+            path,
+            powerpoint.PpFixedFormatType.ppFixedFormatTypePDF,
+            keep_irm_settings=False,
+            doc_structure_tags=False,
+            bitmap_missing_fonts=False
+        )
+    finally:
+        presentation.close()
+    return fastapi.responses.FileResponse(path, filename=filename)
