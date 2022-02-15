@@ -98,27 +98,29 @@ class Presentation:
         bitmap_missing_fonts=True,
         use_iso19005_1=False,
         include_markup=False,
-        # external_exporter=None
+        external_exporter=None
     ):
-        return self.com.ExportAsFixedFormat2(
-            Path=path,
-            FixedFormatType=fixed_format_type,
-            Intent=intent,
-            FrameSlides=frame_slides,
-            HandoutOrder=handout_order,
-            OutputType=output_type,
-            PrintHiddenSlides=print_hidden_slides,
-            PrintRange=print_range,
-            RangeType=range_type,
-            SlideShowName=slide_show_name,
-            IncludeDocProperties=include_doc_properties,
-            KeepIRMSettings=keep_irm_settings,
-            DocStructureTags=doc_structure_tags,
-            BitmapMissingFonts=bitmap_missing_fonts,
-            UseISO19005_1=use_iso19005_1,
-            IncludeMarkup=include_markup,
-            # ExternalExporter=external_exporter
-        )
+        kwargs = {
+            'Path': path,
+            'FixedFormatType': fixed_format_type,
+            'Intent': intent,
+            'FrameSlides': frame_slides,
+            'HandoutOrder': handout_order,
+            'OutputType': output_type,
+            'PrintHiddenSlides': print_hidden_slides,
+            'PrintRange': print_range,
+            'RangeType': range_type,
+            'SlideShowName': slide_show_name,
+            'IncludeDocProperties': include_doc_properties,
+            'KeepIRMSettings': keep_irm_settings,
+            'DocStructureTags': doc_structure_tags,
+            'BitmapMissingFonts': bitmap_missing_fonts,
+            'UseISO19005_1': use_iso19005_1,
+            'IncludeMarkup': include_markup,
+        }
+        if external_exporter is not None:
+            kwargs['ExternalExporter'] = external_exporter
+        return self.com.ExportAsFixedFormat2(**kwargs)
 
 
 @dataclasses.dataclass
